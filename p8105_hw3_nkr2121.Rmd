@@ -1,0 +1,7 @@
+---
+title: "HW3"
+author: "Nihaal Rahman (nkr2121)"
+due date: "October 14, 2023"
+---
+
+## Problem 1
