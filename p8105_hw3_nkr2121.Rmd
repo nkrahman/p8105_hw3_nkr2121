@@ -4,4 +4,37 @@ author: "Nihaal Rahman (nkr2121)"
 due date: "October 14, 2023"
 ---
 
+```{r, echo = FALSE, message = FALSE}
+library(tidyverse)
+```
+
 ## Problem 1
+
+Loading in the dataset. 
+```{r}
+library(p8105.datasets)
+data("instacart")
+```
+
+This dataset contains `r nrow(instacart)` rows and `r ncol(instacart)` columns, with each row representing a single product from an instacart order. There are ID variables indicating the user, order, and product. Other 
+variables of interest include order_hour_of_day and days_since_prior_order, which could be useful for seeing
+trends among instacart users. In total, there are `r instacart |> select(product_id) |> distinct() |> count()` products found in `r instacart |> select(user_id, order_id) |> distinct() |> count()` orders from `r instacart |> select(user_id) |> distinct() |> count()` distinct users.
+
+How many aisles are there? 
+```{r}
+instacart |> distinct(aisle) |> count()
+```
+
+There are `r instacart |> distinct(aisle) |> count()` aisles in this dataset. 
+
+Which aisles are the most items ordered from?
+```{r}
+instacart |> 
+  count(aisle) |> 
+  arrange(desc(n))
+```
+
+
+
+
+
