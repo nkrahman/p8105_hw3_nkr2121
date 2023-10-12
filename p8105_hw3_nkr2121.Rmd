@@ -140,11 +140,38 @@ covar <- read_csv("~/Downloads/nhanes_covar.csv", skip = 4)
 accel <- read_csv("~/Downloads/nhanes_accel.csv")
 
 merged_data = left_join(covar, accel, by = "SEQN") |>
-   janitor::clean_names() |> 
-   filter(!is.na(sex) & !is.na(age) & !is.na(bmi) & !is.na(education)) |> 
-   filter(age >= 21)
+  janitor::clean_names() |> 
+  filter(!is.na(sex) & !is.na(age) & !is.na(bmi) & !is.na(education)) |> 
+  filter(age >= 21) |> 
+  mutate(sex = ifelse(sex == 1, "male", "female")) |> 
+  mutate(education = ifelse(education == 1, "Less than high school", 
+                            ifelse(education == 2, "High school equivalent", "More than high school"))) |> 
+  mutate(education = factor(education, levels = c("Less than high school", "High school equivalent", "More than high school")))
+   
 ```
 
+Producing a reader-friendly table for the number of men and women in each education category
+```{r}
+merged_data |> 
+  janitor::tabyl(sex, education)
+```
+
+Creating a visualization of the age distributions for men and women in each education category.
+```{r}
+merged_data |> 
+  ggplot(aes(x = education, y = age, fill = education)) +
+  geom_boxplot() +
+  facet_grid(~sex) +
+  theme(axis.text.x = element_text(angle = 60, hjust = 1)) +
+  labs(
+    title = "Distribution of Age for Women and Men in Each Education Group",
+    x = "Education",
+    y = "Age",
+    fill = "Age (yrs)"
+  )
+```
+
+Using the tidied dataset, aggregating across minutes to create a total activity variable for each participant. Plotting these total activities (y-axis) against age (x-axis), while comparing men to women with separate panels for each education level. Include a trend line or a smooth to illustrate differences.
 ```{r}
 
 ```
