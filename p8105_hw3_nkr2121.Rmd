@@ -181,3 +181,18 @@ merged_data %>%
   geom_smooth(se = FALSE)
 ```
 
+Making a three-panel plot that shows the 24-hour activity time courses for each education level and use color to indicate sex. 
+```{r}
+merged_data |> 
+  pivot_longer(cols = starts_with("min"), names_to = "minute", values_to = "activity") |>   mutate(minute = str_remove(minute, "min")) |> 
+  mutate(minute = as.numeric(minute)) |> 
+  group_by(sex, minute, education) |> 
+  summarize(average_activity = mean(activity, na.rm = TRUE)) |>
+  ggplot(aes(x = minute, y = average_activity, color = sex)) +
+  facet_grid(~education) +
+  geom_point(alpha = .3) +
+  geom_smooth(se = FALSE)
+```
+
+
+
