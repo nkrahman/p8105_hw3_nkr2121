@@ -50,7 +50,8 @@ instacart |>
 Now making a table showing the three most popular items in each of the aisles “baking ingredients”, “dog food care”, and “packaged vegetables fruits”. Include the number of times each item is ordered in your table.
 ```{r}
 instacart |> 
-  filter(aisle %in% c("baking ingredients", "dog food care", "packaged vegetables fruits")) |> 
+  filter(aisle %in% c("baking ingredients", "dog food care", "packaged vegetables 
+                      fruits")) |> 
   group_by(aisle) |> 
   count(product_name) |> 
   mutate(rank = min_rank(desc(n))) |> 
@@ -72,5 +73,28 @@ instacart |>
   knitr::kable(digits = 2)
 ```
 
+## Problem 2
 
+Importing the data
+```{r}
+data("brfss_smart2010")
+```
+
+Data cleaning
+```{r}
+brfss_smart2010 = brfss_smart2010 |> 
+  janitor::clean_names() |> 
+  filter(topic == "Overall Health") |> 
+  mutate(response = factor(response, levels = c("Poor", "Fair", "Good", "Very good", 
+                                                "Excellent"), ordered = TRUE)) 
+```
+
+In 2002, which states were observed at 7 or more locations? What about in 2010?
+```{r}
+brfss_smart2010 |> 
+  filter(year %in% c(2002, 2010)) |> 
+  group_by(year, locationabbr) |> 
+  summarize(locationdesc = n_distinct(locationdesc)) |> 
+  filter(locationdesc >= 7)
+```
 
