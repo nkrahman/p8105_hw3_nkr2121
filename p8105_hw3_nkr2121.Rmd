@@ -130,3 +130,27 @@ brfss_smart2010 |>
   )
 ```
 
+
+## Problem 3
+
+Loading, tidying, merging, and otherwise organizing the data sets.
+```{r}
+covar <- read_csv("~/Downloads/nhanes_covar.csv", skip = 4)
+
+accel <- read_csv("~/Downloads/nhanes_accel.csv")
+
+merged_data = left_join(covar, accel, by = "SEQN") |>
+   janitor::clean_names() |> 
+   filter(!is.na(sex) & !is.na(age) & !is.na(bmi) & !is.na(education)) |> 
+   filter(age >= 21)
+```
+
+```{r}
+
+```
+
+
+
+
+
+
