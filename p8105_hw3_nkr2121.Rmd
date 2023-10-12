@@ -171,13 +171,13 @@ merged_data |>
   )
 ```
 
-Using the tidied dataset, aggregating across minutes to create a total activity variable for each participant. Plotting these total activities (y-axis) against age (x-axis), while comparing men to women with separate panels for each education level. Include a trend line or a smooth to illustrate differences.
+Using the tidied dataset, aggregating across minutes to create a total activity variable for each participant. Plotting these total activities (y-axis) against age (x-axis), while comparing men to women with separate panels for each education level, and including a smooth to illustrate differences.
 ```{r}
-
+merged_data %>% 
+  mutate(total_activity = rowSums(select(., starts_with("min")), na.rm = TRUE)) |> 
+  ggplot(aes(x = age, y = total_activity, color = sex)) +
+  facet_grid(~education) +
+  geom_point(alpha = .5) +
+  geom_smooth(se = FALSE)
 ```
-
-
-
-
-
 
