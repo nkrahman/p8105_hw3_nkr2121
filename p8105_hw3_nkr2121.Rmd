@@ -108,10 +108,25 @@ data = brfss_smart2010 |>
   select(year, locationabbr, avg_data_value)
 ```
 
-Make a “spaghetti” plot of this average value over time within a state.
+Making a “spaghetti” plot of this average value over time within a state.
 ```{r}
 ggplot(data = data, aes(x = year, y = avg_data_value, group = locationabbr)) +
   geom_line(alpha = 0.7) 
 ```
 
+Making a two-panel plot showing, for the years 2006, and 2010, distribution of data_value for responses (“Poor” to “Excellent”) among locations in NY State.
+```{r}
+brfss_smart2010 |> 
+  filter(locationabbr == "NY" & (year == 2010 | year == 2006)) |> 
+  ggplot(aes(x = response, y = data_value, fill = response)) +
+  geom_boxplot() +
+  facet_grid(~year) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  labs(
+    title = "Distribution of Data Value among Locations in NY State",
+    x = "Response",
+    y = "Data Value",
+    fill = "Response"
+  )
+```
 
