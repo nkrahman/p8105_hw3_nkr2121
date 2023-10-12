@@ -48,11 +48,12 @@ instacart |>
   theme(axis.text.x = element_text(angle = 90, hjust = 1))
 ```
 
+As you can see through the plot, top 5 aisles for most items ordered from are, in order: fresh vegetables, fresh fruits, packaged vegetables fruits, yogurt, and packaged cheese. 
+
 Now making a table showing the three most popular items in each of the aisles “baking ingredients”, “dog food care”, and “packaged vegetables fruits”. Include the number of times each item is ordered in your table.
 ```{r}
 instacart |> 
-  filter(aisle %in% c("baking ingredients", "dog food care", "packaged vegetables 
-                      fruits")) |> 
+  filter(aisle %in% c("baking ingredients", "dog food care", "packaged vegetables fruits")) |> 
   group_by(aisle) |> 
   count(product_name) |> 
   mutate(rank = min_rank(desc(n))) |> 
@@ -61,7 +62,14 @@ instacart |>
   knitr::kable()
 ```
 
-Making a table showing the mean hour of the day at which Pink Lady Apples and Coffee Ice Cream are ordered on each day of the week.
+The most popular items from packaged vegetables fruits are: (1) organic baby spinach,
+(2) organic raspberries, and (3) organic blueberries. 
+
+The most popular items from baking ingredients are: (1) light brown sugar, (2) pure baking soda, and (3) cane sugar. 
+
+The most popular items from dog food care are: (1) snack sticks chicken & rice recipe dog treats, (2) organix chicken & brown rice recipe, and (3) small dog biscuits. 
+
+Now making a table showing the mean hour of the day at which Pink Lady Apples and Coffee Ice Cream are ordered on each day of the week.
 format this table for human readers (i.e. produce a 2 x 7 table).
 ```{r}
 instacart |>
@@ -73,6 +81,8 @@ instacart |>
     values_from = mean_hour) |> 
   knitr::kable(digits = 2)
 ```
+
+Assuming that day 0 = Monday, on average, coffee ice cream was ordered the earliest on Saturdays at 12:26, and latest on Wednesdays at 15:38. Pink lady apples were ordered the earliest on Tuesdays at 11:36, and latest on Thursdays at 14:25. 
 
 ## Problem 2
 
@@ -99,7 +109,9 @@ brfss_smart2010 |>
   filter(locationdesc >= 7)
 ```
 
-Constructing a dataset that is limited to Excellent responses, and contains, year, state, and a variable that averages the data_value across locations within a state. 
+In 2002, the following 6 states were observed at 7 or more locations: CT, FL, MA, NC, NJ, and PA. In 2010, the following 14 states were observed at 7 or more locations: CA, CO, FL, MA, MD, NC, NE, NJ, NY, OH, PA, SC, TX, and WA. CT is the only state that was observed at 7 or more locations in 2002, but not in 2010. 
+
+Now constructing a dataset that is limited to Excellent responses, and contains, year, state, and a variable that averages the data_value across locations within a state. 
 ```{r}
 data = brfss_smart2010 |> 
   filter(response == "Excellent") |> 
@@ -130,6 +142,7 @@ brfss_smart2010 |>
   )
 ```
 
+In 2006 and 2010, those who responded "very good" had the highest average data value among all 5 response groups. Likewise, in both years, those who responded "good" were 2nd highest, "excellent" was 3rd highest, "fair" was 4th highest, and "poor" was the lowest. The average values for the "fair", "very good", and "excellent" groups visibly increased from 2006 to 2010. 
 
 ## Problem 3
 
@@ -156,6 +169,8 @@ merged_data |>
   janitor::tabyl(sex, education)
 ```
 
+Overall, there are more men in this data set than women. Within men and women each, respectively, about half have more than a high school education, and the remaining half is split between less than high school and high school equivalent educations. 
+
 Creating a visualization of the age distributions for men and women in each education category.
 ```{r}
 merged_data |> 
@@ -170,6 +185,8 @@ merged_data |>
     fill = "Age (yrs)"
   )
 ```
+
+In both men and women, the more than high school group has an younger average age than the other two groups. In women, the average age for the less than high school and high school equivalent group are about the same, but in men, there is a gradient of average ages, getting younger as the educational attainment level increases. 
 
 Using the tidied dataset, aggregating across minutes to create a total activity variable for each participant. Plotting these total activities (y-axis) against age (x-axis), while comparing men to women with separate panels for each education level, and including a smooth to illustrate differences.
 ```{r}
