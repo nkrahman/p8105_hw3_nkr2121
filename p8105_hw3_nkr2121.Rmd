@@ -122,9 +122,11 @@ data = brfss_smart2010 |>
 
 Making a “spaghetti” plot of this average value over time within a state.
 ```{r}
-ggplot(data = data, aes(x = year, y = avg_data_value, group = locationabbr)) +
+ggplot(data = data, aes(x = year, y = avg_data_value, group = locationabbr, color = locationabbr)) +
   geom_line(alpha = 0.7) 
 ```
+
+This plot shows the average value over time within each state. The average data value in 2002 across all states was `r filter(data, year == 2002) |> pull(avg_data_value) |> mean() |> round(2)`. In 2003 the average data value was `r filter(data, year == 2003) |> pull(avg_data_value) |> mean() |> round(2)`. In 2004 the average data value was `r filter(data, year == 2004) |> pull(avg_data_value) |> mean() |> round(2)`. In 2005 the average data value was `r filter(data, year == 2005) |> pull(avg_data_value) |> mean() |> round(2)`. In 2006 the average data value was `r filter(data, year == 2006) |> pull(avg_data_value) |> mean() |> round(2)`. In 2007 the average data value was `r filter(data, year == 2007) |> pull(avg_data_value) |> mean() |> round(2)`. In 2008 the average data value was `r filter(data, year == 2008) |> pull(avg_data_value) |> mean() |> round(2)`. In 2009 the average data value was `r filter(data, year == 2009) |> pull(avg_data_value) |> mean() |> round(2)`. In 2010 the average data value was `r filter(data, year == 2010) |> pull(avg_data_value) |> mean() |> round(2)`.
 
 Making a two-panel plot showing, for the years 2006, and 2010, distribution of data_value for responses (“Poor” to “Excellent”) among locations in NY State.
 ```{r}
@@ -198,6 +200,8 @@ merged_data %>%
   geom_smooth(se = FALSE)
 ```
 
+In the high school equivalent and more than high school groups, women had, on average, a greater total_activity than men for most ages. In the less than high school groups, both men's and women's total activity steeply drops with age. In the high school equivalent group, the average total activity for men and women rises until 40, at which point it declines, but then women experience another slight increase around 60 year. 
+
 Making a three-panel plot that shows the 24-hour activity time courses for each education level and use color to indicate sex. 
 ```{r}
 merged_data |> 
@@ -210,6 +214,6 @@ merged_data |>
   geom_point(alpha = .3) +
   geom_smooth(se = FALSE)
 ```
-
+As expected, the average activity is low during the night, and then quickly rises in the morning, and continues to rise until it drops again (presumably when people start going to bed). The average total activity of the less than high school gruoup seems to be higher compared to the other 2 education groups. In all 3 charts, women seem to have a higher average activity than men. 
 
 
